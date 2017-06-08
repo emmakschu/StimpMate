@@ -1,0 +1,68 @@
+<h2>Add new stimp data</h2>
+
+
+<%= form_for @stimp, method: "post" do |s| %>
+
+  <p><%= s.radio_button :entries, 1, :checked => true %>One entry / green
+     &nbsp; &nbsp;
+     <%= s.radio_button :entries, 3 %>Three entries / green
+  </p>
+  
+  <p>Course: &nbsp;
+     <%= s.select :course, ['Woods', 'Prairie', 'Lakes', 'Other'] %>
+  </p>
+  
+  <p>Soil Type: &nbsp;
+     <%= s.select :soilType, ['Native', 'Sand-based'] %>
+  </p>
+  
+  <p>Green: &nbsp;
+     <%= s.number_field(:green, in: 1..9) %>
+  </p>
+
+  <p>Mower: &nbsp;
+     <%= s.select :mower, ['Eclipse11', 'Eclipse10', 'GK9', 'GK7', 'GK6', 'Toro', 'none'] %>
+  </p>
+
+  <p>Roller: &nbsp;
+     <%= s.select :roller, ['Smithco1', 'Smithco2', 'none', 'oldSmithco', 'oldSalsco'] %>
+  </p>
+
+  <p>Last Verticut:
+     <%= s.radio_button :verticut, 3 %>Today &nbsp;
+     <%= s.radio_button :verticut, 2 %>Yesterday &nbsp;
+     <%= s.radio_button :verticut, 1 %>2-7 Days &nbsp;
+     <%= s.radio_button :verticut, 0 %>> 1 week
+  </p>
+
+  <h3>Roll distances</h3>
+
+  <div id="oneEntry">
+	  <p>Forward: <%= s.number_field :forward1 %>
+	       <div class="threeEntries"><br /><%= s.number_field :forward2 %>
+	       <br /><%= s.number_field :forward3 %></div></p>
+	  <p>Backward: <%= s.number_field :backward1 %>
+	       <div class="threeEntries"><br /><%= s.number_field :backward2 %>
+	       <br /><%= s.number_field :backward3 %></div></p>
+	  <p>Left: <%= s.number_field :left1 %>
+	       <div class="threeEntries"><br /><%= s.number_field :left2 %>
+	       <br /><%= s.number_field :left3 %></div></p>
+	  <p>Right: <%= s.number_field :right1 %>
+	       <div class="threeEntries"><br /><%= s.number_field :right2 %>
+	       <%= s.number_field :right3 %></div></p>
+  </div>
+
+  <p>Notes: &nbsp; <%= s.text_area :notes %></p>
+
+  <p><%= s.submit "Calculate speed" %></p>
+
+<% end %>
+
+	<script>
+$('.threeEntries').css('display','none');
+
+$('input[type=radio][name="stimp[entries]"]').change( function() {
+	$('.oneEntry').toggle();
+	$('.threeEntries').toggle();
+});
+	</script>

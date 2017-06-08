@@ -1,0 +1,27 @@
+<%= image_tag 'graph.png', :width => '600px' %>
+<table class="alt-color">
+
+  <thead>
+    <th>Date</th>
+    <th>Course</th>
+    <th>Green</th>
+    <th>Mower</th>
+    <th>Roller</th>
+    <th>Speed</th>
+    <th>Weather</th>
+  </thead>
+
+  <tbody>
+    <% @stimps.each do |s| %>
+    <tr>
+      <td><%= s.created_at %></td>
+      <td><%= s.course %></td>
+      <td><%= s.green %></td>
+      <td><%= s.mower %></td>
+      <td><%= s.roller %></td>
+      <td><%= s.adj_speed %></td>
+      <td><%= s.weather %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,27 @@
+<table>
+  <thead>
+    <th>Date</th>
+    <th>Soil Type</th>
+    <th>Course</th>
+    <th>Green</th>
+    <th>Mower</th>
+    <th>Roller</th>
+    <th>Notes</th>
+    <th>Weather</th>
+    <th>Speed</th>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td><%= @stimp.created_at %></td>
+      <td><%= @stimp.soilType %></td>
+      <td><%= @stimp.course %></td>
+      <td><%= @stimp.green %></td>
+      <td><%= @stimp.mower %></td>
+      <td><%= @stimp.roller %></td>
+      <td><%= @stimp.notes %></td>
+      <td><%= @stimp.weather %></td>
+      <td><%= @stimp.adj_speed %></td>
+    </tr>
+  </tbody>
+</table>

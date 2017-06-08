@@ -62,11 +62,25 @@ elif [ "$PYTHON_VER" = "" ] ; then
 fi
 
 
-#-------------------------------------------
-# Set the app's build directory and enduser
-#-------------------------------------------
+#------------------------------------------------------
+# Set the app's source & build directories and enduser
+#------------------------------------------------------
+SRC_DIR=$(pwd)
 TARGET_DIR="/var/www/public_html"
 ENDUSER=$(echo "$USER")
+
+
+#--------------------------------------------
+# Create new MySQL db and automated app user
+#--------------------------------------------
+DB_NAME="stimpMate"
+DB_USER="schuRailsApp"
+DB_PASSWD="schuLutions!"
+
+mysql -uroot -p -e "CREATE DATABASE ${DB_NAME};"
+mysql -uroot -p -e "CREATE USER ${DB_USER};"
+mysql -uroot -p -e "GRANT ALL PRIVILEGES ON ${DB_NAME} TO ${DB_USER} IDENTIFIED BY ${DB_PASSWD};"
+mysql -uroot -p -e "FLUSH PRIVILEGES;"
 
 
 #----------------------------------------------------
@@ -95,3 +109,8 @@ if [ "$PYTHON_VER" != "" ] ; then
 else
     echo "Skipping Python folder, since Python is not installed."
 fi
+
+
+#---------------------------------------------------------
+# Copy base Rails app files from src to new app directory
+#---------------------------------------------------------
