@@ -6,7 +6,7 @@
 # Author:   Michael K Schumacher (Github: @mkschu)            #
 # Email:    michael@mkschumacher.com                          #
 # Created:  8 June 2017 02:35 UTC                             #
-# Modified: 8 June 2017 04:04 UTC                             #
+# Modified: 10 June 2017 01:46 UTC                            #
 #							      #
 # This script is written to install the StimpMate web app on  #
 # a *nix-based server, and will not be tested on every single #
@@ -23,6 +23,8 @@
 #-------------------------
 # Check for prerequisites
 #-------------------------
+echo "Checking dependencies"
+
 OP_SYS=`uname -o`
 if [ "$OP_SYS" != "GNU/Linux" ] ; then
     echo "Your operating system is not supported."
@@ -70,6 +72,17 @@ TARGET_DIR="/var/www/public_html"
 ENDUSER=$(echo "$USER")
 
 
+#------------------------------------
+# Set up MySQL database and app user
+#------------------------------------
+echo "Setting up database; You will need to enter MySQL root password"
+mysql -u root -p -e "CREATE DATABASE stimpMate;"
+mysql stimpMate -u root -p -e "GRANT ALL PRIVILEGES ON stimpMate
+	TO 'stimpMateApp'@localhost IDENTIFIED BY 'schuLutions';
+	FLUSH PRIVILEGES;"
+echo "Database and app user created"
+
+
 #----------------------------------------------------
 # Check for build dir existence and write permission
 # Create and modify ownership if necessary
@@ -101,4 +114,5 @@ fi
 #---------------------------------------------------------
 # Copy base Rails app files from src to new app directory
 #---------------------------------------------------------
-cp -r  $SRC_DIR/src/* $TARGET_DIR/
+echo "Copying files from source directory"
+cp -r  ${SRC_DIR}/src/* ${TARGET_DIR}/stimpMate/
