@@ -1,0 +1,32 @@
+<h2>Lakes Sand-based Greens</h2>
+
+<%= image_tag 'lakesSandGraph.png', :width => '400px' %>
+
+<table class="alt-color">
+  <thead>
+    <th>Date</th> 
+    <th>Green</th>
+    <th>Mower</th>
+    <th>Roller</th>
+    <th>Weather</th>
+    <th>Notes</th>
+    <th>Speed</th>
+  </thead>
+
+  <tbody>
+
+  <% @stimps.each do |s| %>
+
+  <tr>
+    <td><%= s.created_at %></td>
+    <td><%= s.green %></td>
+    <td><%= s.mower %></td>
+    <td><%= s.roller %></td>
+    <td><%= s.weather %></td>
+    <td><%= s.notes %></td>
+    <td><%= s.adj_speed %></td>
+  </tr>
+
+  <% end %>
+
+</table>
