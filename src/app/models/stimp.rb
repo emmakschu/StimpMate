@@ -1,11 +1,11 @@
 class Stimp < ActiveRecord::Base
 
   def self.woodsNative()
-    where("course = 'woods'").where("soilType = 'native'")
+    where("course = 'woods'").where("soilType = 'native'").order(:created_at, :desc)
   end
 
   def self.woodsSand()
-    where("course = 'woods'").where("soilType = 'sand'")
+    where("course = 'woods'").where("soilType = 'sand'").order(:created_at, :desc)
   end
 
   def self.prairieNative()

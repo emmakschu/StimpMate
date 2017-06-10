@@ -19,7 +19,7 @@ default: &default
 
 development:
   <<: *default
-  database: greenSpeeds
+  database: stimpsApp
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: stimpsApp_production
-  username: stimpsApp
+  database: stimpsApp
+  username: stimpMateApp
   password: <%= ENV['STIMPSAPP_DATABASE_PASSWORD'] %>
