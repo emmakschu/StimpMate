@@ -50,6 +50,7 @@ if [ "$MYSQL_VER" = "" ] ; then
     exit 1
 fi
 
+HAS_PYTHON=1
 PYTHON_VER=`python -c "import sys; print(sys.version_info[0])"`
 if [ "$PYTHON_VER" = 3 ] ; then
     PYTHON2_VER=`python2 -c "import sys; print(sys.version_info[0])"`
@@ -59,8 +60,10 @@ if [ "$PYTHON_VER" = 3 ] ; then
     fi
 elif [ "$PYTHON_VER" = "" ] ; then
     echo "You need to have python installed to use the graphing features."
-    echo "Python 2.7 is the recommened version due to matplotlib"
+    echo "Python 2.7 is the recommened version due to matplotlib 
+    	  compatibility issues in Python 3"
     echo "compatibility issues with Python 3"
+    HAS_PYTHON=0
 fi
 
 
@@ -100,19 +103,22 @@ cd stimpMate
 bundle install
 
 
-#-------------------------------------------------------------------
-# Set the directory for Python scripts to draw graphs, if installed
-#-------------------------------------------------------------------
-if [ "$PYTHON_VER" != "" ] ; then
-    PYTHON_DIR="/var/www/public_html/stimpMate/pythonscripts"
-    mkdir "$PYTHON_DIR"
-else
-    echo "Skipping Python folder, since Python is not installed."
-fi
-
-
 #---------------------------------------------------------
 # Copy base Rails app files from src to new app directory
 #---------------------------------------------------------
 echo "Copying files from source directory"
 cp -r  ${SRC_DIR}/src/* ${TARGET_DIR}/stimpMate/
+
+
+#-------------------------------------------------------------------
+# Set the directory for Python scripts to draw graphs, if installed
+#-------------------------------------------------------------------
+if [ "$PYTHON_VER" != "" ] ; then
+    echo "Creating directory for Python scripts"
+    PYTHON_DIR="/var/www/public_html/stimpMate/pythonscripts"
+    mkdir "$PYTHON_DIR"
+    echo "Copying Python scripts from source directory"
+    cp -r ${SRC_DIR}/pythonscripts/* ${TARGET_DIR}/stimpMate/pythonscripts/
+else
+    echo "Skipping Python folder, since Python is not installed."
+fi
