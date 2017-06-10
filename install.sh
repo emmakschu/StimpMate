@@ -23,34 +23,34 @@
 #-------------------------
 # Check for prerequisites
 #-------------------------
-OP_SYS=$(uname -o)
+OP_SYS=`uname -o`
 if [ "$OP_SYS" != "GNU/Linux" ] ; then
     echo "Your operating system is not supported."
     echo "This script is only written for Linux systems"
     exit 1
 fi
 
-RUBY_VER=$(ruby -v)
+RUBY_VER=`ruby -v`
 if [ "$RUBY_VER" = "" ] ; then
     echo "You need to install Ruby before you can install StimpMate"
     exit 1
 fi
 
-RAILS_VER=$(rails -v)
+RAILS_VER=`rails -v`
 if [ "$RAILS_VER" = "" ] ; then
     echo "You need to install Rails before you can install StimpMate"
     exit 1
 fi
 
-MYSQL_VER=$(mysql --version)
+MYSQL_VER=`mysql --version`
 if [ "$MYSQL_VER" = "" ] ; then
     echo "You need a MySQL/MariaDB server installed to use StimpMate"
     exit 1
 fi
 
-PYTHON_VER=$(python -c 'import sys; print(sys.version_info[0])')
+PYTHON_VER=`python -c "import sys; print(sys.version_info[0])"`
 if [ "$PYTHON_VER" = 3 ] ; then
-    PYTHON2_VER=$(python2 -c 'import sys; print(sys.version_info[0])')
+    PYTHON2_VER=`python2 -c "import sys; print(sys.version_info[0])"`
     if [ "$PYTHON2_VER" = "" ] ; then
         echo "WARNING: Python 3 may cause problems with matplotlib!"
 	echo "Python 2.7 is recommended at this time."
@@ -70,31 +70,18 @@ TARGET_DIR="/var/www/public_html"
 ENDUSER=$(echo "$USER")
 
 
-#--------------------------------------------
-# Create new MySQL db and automated app user
-#--------------------------------------------
-DB_NAME="stimpMate"
-DB_USER="schuRailsApp"
-DB_PASSWD="schuLutions!"
-
-mysql -uroot -p -e "CREATE DATABASE ${DB_NAME};"
-mysql -uroot -p -e "CREATE USER ${DB_USER};"
-mysql -uroot -p -e "GRANT ALL PRIVILEGES ON ${DB_NAME} TO ${DB_USER} IDENTIFIED BY ${DB_PASSWD};"
-mysql -uroot -p -e "FLUSH PRIVILEGES;"
-
-
 #----------------------------------------------------
 # Check for build dir existence and write permission
 # Create and modify ownership if necessary
 #----------------------------------------------------
-[ -d "$TARGET_DIR" ] || su -c 'mkdir "$TARGET_DIR"' root
-[ -w "$TARGET_DIR" ] || su -c 'chown "$ENDUSER" "$TARGET_DIR"'  root
+[ -d "$TARGET_DIR" ] || sudo mkdir ${TARGET_DIR}
+[ -w "$TARGET_DIR" ] || sudo chown ${ENDUSER} ${TARGET_DIR}
 
 
 #----------------------------------------------------------
 # Move to the target directory to begin building Rails app
 #----------------------------------------------------------
-cd $TARGET_DIR
+cd "$TARGET_DIR"
 [ -d "stimpMate" ] || rails new stimpMate -d mysql
 cd stimpMate
 bundle install
@@ -114,3 +101,4 @@ fi
 #---------------------------------------------------------
 # Copy base Rails app files from src to new app directory
 #---------------------------------------------------------
+cp -r  $SRC_DIR/src/* $TARGET_DIR/
