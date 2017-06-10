@@ -107,18 +107,10 @@ bundle install
 # Copy base Rails app files from src to new app directory
 #---------------------------------------------------------
 echo "Copying files from source directory"
-cp -r  ${SRC_DIR}/src/* ${TARGET_DIR}/stimpMate/
 
-
-#-------------------------------------------------------------------
-# Set the directory for Python scripts to draw graphs, if installed
-#-------------------------------------------------------------------
-if [ "$PYTHON_VER" != "" ] ; then
-    echo "Creating directory for Python scripts"
-    PYTHON_DIR="/var/www/public_html/stimpMate/pythonscripts"
-    mkdir "$PYTHON_DIR"
-    echo "Copying Python scripts from source directory"
-    cp -r ${SRC_DIR}/pythonscripts/* ${TARGET_DIR}/stimpMate/pythonscripts/
+# Check whether using Python or not and install appropriate version
+if [ "$HAS_PYTHON" = 0 ] ; then
+	cp -r  ${SRC_DIR}/src/no-python/* ${TARGET_DIR}/stimpMate/
 else
-    echo "Skipping Python folder, since Python is not installed."
+	cp -r ${SRC_DIR}/src/python/* ${TARGET_DIR}/stimpMate/
 fi
